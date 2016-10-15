@@ -66,10 +66,10 @@
 						<label for="message" class="col-md-4 control-label">Message</label>
 						<div class="col-md-6">
 							<textarea name="message" id="message" rows="10" class="form-control"></textarea>
+							@if ($errors->has('message'))
+								<span class="help-block"><strong>{{ $errors->first('message') }}</strong></span>
+							@endif							
 						</div>
-						@if ($errors->has('message'))
-							<span class="help-block"><strong>{{ $errors->first('message') }}</strong></span>
-						@endif
 					</div>
 
 					<div class="form-group">
