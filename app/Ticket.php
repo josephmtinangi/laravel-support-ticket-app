@@ -16,4 +16,9 @@ class Ticket extends Model
     	'status',
     	
     ];
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }
