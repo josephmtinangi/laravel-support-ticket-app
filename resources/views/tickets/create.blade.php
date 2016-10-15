@@ -11,6 +11,8 @@
 				<h3 class="panel-title">Open New Ticket</h3>
 			</div>
 			<div class="panel-body">
+
+				@include('includes.flash')
 				
 				<form class="form-horizontal" role="form" method="POST" action={{ url('new-ticket') }}>
 					{!! csrf_field() !!}
