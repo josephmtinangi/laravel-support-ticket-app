@@ -53,7 +53,7 @@
 				<div class="comments">
 					@if($ticket->comments->count() > 0)
 						@foreach($ticket->comments as $comment)
-							<div class="panel panel-{{ $ticket->user->id === $comment->user_id ? 'default' : 'success' }}">
+							<div class="panel panel-{{ $ticket->user->id == $comment->user_id ? 'default' : 'success' }}">
 								<div class="panel-heading">
 									{{ $comment->user->name }}
 									<span class="pull-right">{{ $comment->created_at->format('Y-m-d') }}</span>

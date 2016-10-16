@@ -10,6 +10,10 @@ use App\Comment;
 
 use Auth;
 
+use Mail;
+
+use App\Mail\SendTicketComments;
+
 class CommentController extends Controller
 {
     public function postComment(Request $request)
@@ -23,6 +27,11 @@ class CommentController extends Controller
     		'user_id'	=> Auth::user()->id,
     		'comment' 	=> $request->input('comment'),
     	]);
+
+    	if($comment->ticket->user->id !== Auth::user()->id) {
+    		$email = new SendTicketComments($comment->ticket->user, $comment->ticket, $comment);
+    		Mail::to($comment->ticket->user->email)->send($email);
+    	}
 
     	return redirect()->back()->with('status', 'Your comment has been submitted.');
     }

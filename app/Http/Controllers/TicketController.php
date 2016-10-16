@@ -67,7 +67,7 @@ class TicketController extends Controller
 
     public function show($id)
     {
-        $ticket = Ticket::whereUserId(Auth::user()->id)->whereId($id)->with('category')->with('comments')->first();
+        $ticket = Ticket::whereId($id)->with('category')->with('comments')->first();
         return view('tickets.show', compact('ticket'));
     }
 }
