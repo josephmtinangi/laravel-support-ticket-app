@@ -18,6 +18,8 @@ use App\User;
 
 use App\Mail\TicketCreated;
 
+use App\Mail\SendTicketStatusNotification;
+
 class TicketController extends Controller
 {
 
@@ -32,6 +34,9 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($request->input('ticket'));
         $ticket->status = 'Closed';
         $ticket->save();
+
+        $email = new SendTicketStatusNotification($ticket->user, $ticket);
+        Mail::to($ticket->user->email)->send($email);
 
         return redirect()->back()->with('status', 'The ticket has been closed.');
     }
