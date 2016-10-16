@@ -66,11 +66,14 @@
 							</div>
 						@endforeach
 					@else
-						<strong>Be the first to comment.</strong>
-						<hr>
+						@if($ticket->status == 'Open')
+							<strong>Be the first to comment.</strong>
+							<hr>
+						@endif
 					@endif
 				</div>
 
+				@if($ticket->status == 'Open')
 				<div class="comment-form">
 					@include('includes.flash')
 
@@ -90,7 +93,9 @@
 						</div>
 					</form>					
 				</div>
-
+				@else
+					<strong>This ticket has been closed.</strong>
+				@endif
 			</div>
 		</div>
 	</div>

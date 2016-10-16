@@ -76,7 +76,7 @@ class TicketController extends Controller
 
         Mail::to(Auth::user()->email)->send($email);
 
-    	return redirect()->back()->with('status', 'A ticket with ID: #'. $ticket->ticket_id .' has been opened.');
+    	return redirect('my-tickets')->with('status', 'A ticket with ID: #'. $ticket->ticket_id .' has been opened.');
     }
 
     public function userTicket()

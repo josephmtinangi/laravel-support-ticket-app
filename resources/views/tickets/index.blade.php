@@ -34,7 +34,7 @@
 									@foreach($tickets as $ticket)
 										<tr>
 											<td>{{ $i++ }}</td>
-											<td>{{ $ticket->title }}</td>
+											<td><a href="{{ url('tickets/' . $ticket->id) }}">{{ $ticket->title }}</a></td>
 											<td>{{ $ticket->category->name }}</td>
 											<td>{{ $ticket->priority }}</td>
 											<td>
@@ -46,13 +46,19 @@
 											</td>
 											<td>{{ $ticket->created_at->diffForHumans() }}</td>
 											<td>{{ $ticket->updated_at->diffForHumans() }}</td>
-											<td><a href="{{ url('tickets/' . $ticket->id) }}">Comment</a></td>
 											<td>
-												<form action="{{ url('close-ticket') }}" method="POST">
-													{!! csrf_field() !!}
-													<input type="hidden" name="ticket" value="{{ $ticket->id }}">
-													<button type="submit" class="btn btn-success">Close</button>
-												</form>
+												@unless($ticket->status == 'Closed')
+													<a href="{{ url('tickets/' . $ticket->id) }}">Comment</a>
+												@endunless
+											</td>
+											<td>
+												@if($ticket->status == 'Open')
+													<form action="{{ url('close-ticket') }}" method="POST">
+														{!! csrf_field() !!}
+														<input type="hidden" name="ticket" value="{{ $ticket->id }}">
+														<button type="submit" class="btn btn-success">Close</button>
+													</form>
+												@endif
 											</td>
 										</tr>
 									@endforeach
