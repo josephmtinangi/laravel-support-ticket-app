@@ -21,7 +21,14 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('new-ticket', 'TicketController@create');
 Route::post('new-ticket', 'TicketController@store');
-Route::get('my-tickets', 'TicketController@index');
+Route::get('my-tickets', 'TicketController@userTicket');
 Route::get('tickets/{id}', 'TicketController@show');
 
 Route::post('comment', 'CommentController@postComment');
+
+Route::group([
+	'middleware'	=> 'admin'
+], function() {
+	Route::get('tickets', 'TicketController@index');
+	Route::post('close-ticket', 'TicketController@closeTicket');
+});

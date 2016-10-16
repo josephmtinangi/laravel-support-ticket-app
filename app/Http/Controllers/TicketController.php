@@ -21,6 +21,21 @@ use App\Mail\TicketCreated;
 class TicketController extends Controller
 {
 
+    public function index()
+    {
+        $tickets = Ticket::all();
+        return view('tickets.index', compact('tickets'));
+    }
+
+    public function closeTicket(Request $request)
+    {
+        $ticket = Ticket::findOrFail($request->input('ticket'));
+        $ticket->status = 'Closed';
+        $ticket->save();
+
+        return redirect()->back()->with('status', 'The ticket has been closed.');
+    }
+
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -59,10 +74,10 @@ class TicketController extends Controller
     	return redirect()->back()->with('status', 'A ticket with ID: #'. $ticket->ticket_id .' has been opened.');
     }
 
-    public function index()
+    public function userTicket()
     {
         $tickets = Ticket::whereUserId(Auth::user()->id)->with('category')->paginate(10);
-        return view('tickets.index', compact('tickets'));
+        return view('tickets.user', compact('tickets'));
     }
 
     public function show($id)
