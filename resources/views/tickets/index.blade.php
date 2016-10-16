@@ -30,7 +30,7 @@
 								@foreach($tickets as $ticket)
 									<tr>
 										<td>{{ $i++ }}</td>
-										<td>{{ $ticket->title }}</td>
+										<td><a href="{{ url('tickets/' . $ticket->id) }}">{{ $ticket->title }}</a></td>
 										<td>{{ $ticket->category->name }}</td>
 										<td>{{ $ticket->priority }}</td>
 										<td>

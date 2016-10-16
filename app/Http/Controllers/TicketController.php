@@ -64,4 +64,10 @@ class TicketController extends Controller
         $tickets = Ticket::whereUserId(Auth::user()->id)->with('category')->paginate(10);
         return view('tickets.index', compact('tickets'));
     }
+
+    public function show($id)
+    {
+        $ticket = Ticket::whereUserId(Auth::user()->id)->whereId($id)->with('category')->first();
+        return view('tickets.show', compact('ticket'));
+    }
 }
