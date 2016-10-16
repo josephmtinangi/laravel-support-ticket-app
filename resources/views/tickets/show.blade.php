@@ -49,12 +49,48 @@
 				<h3 class="panel-title">Comments</h3>
 			</div>
 			<div class="panel-body">
-				<form>
-					<div class="form-group">
-						<textarea name="comment" id="" cols="30" rows="5" class="form-control" placeholder="Write"></textarea>
-					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
+
+				<div class="comments">
+					@if($ticket->comments->count() > 0)
+						@foreach($ticket->comments as $comment)
+							<div class="panel panel-{{ $ticket->user->id === $comment->user_id ? 'default' : 'success' }}">
+								<div class="panel-heading">
+									{{ $comment->user->name }}
+									<span class="pull-right">{{ $comment->created_at->format('Y-m-d') }}</span>
+								</div>
+								<div class="panel-body">
+									<blockquote>
+										{{ $comment->comment }}
+									</blockquote>
+								</div>
+							</div>
+						@endforeach
+					@else
+						<strong>Be the first to comment.</strong>
+						<hr>
+					@endif
+				</div>
+
+				<div class="comment-form">
+					@include('includes.flash')
+
+					<form action="{{ url('comment') }}" method="POST">
+						{!! csrf_field() !!}
+						<input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+						<div class="form-group{{ $errors->has('comment') ? 'has-error' : '' }}">
+							<textarea name="comment" id="" cols="30" rows="5" class="form-control" placeholder="Write"></textarea>
+							@if($errors->has('comment'))
+								<span class="help-block">
+									<strong>{{ $errors->first('comment') }}</strong>
+								</span>
+							@endif
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>					
+				</div>
+
 			</div>
 		</div>
 	</div>
