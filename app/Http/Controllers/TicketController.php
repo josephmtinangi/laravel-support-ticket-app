@@ -58,4 +58,10 @@ class TicketController extends Controller
 
     	return redirect()->back()->with('status', 'A ticket with ID: #'. $ticket->ticket_id .' has been opened.');
     }
+
+    public function index()
+    {
+        $tickets = Ticket::whereUserId(Auth::user()->id)->with('category')->paginate(10);
+        return view('tickets.index', compact('tickets'));
+    }
 }
