@@ -12,6 +12,12 @@ use App\Ticket;
 
 use Auth;
 
+use Mail;
+
+use App\User;
+
+use App\Mail\TicketCreated;
+
 class TicketController extends Controller
 {
 
@@ -45,6 +51,10 @@ class TicketController extends Controller
     		'status'	=> 'Open',
     	]);
     	$ticket->save();
+
+        $email = new TicketCreated(Auth::user(), $ticket);
+
+        Mail::to(Auth::user()->email)->send($email);
 
     	return redirect()->back()->with('status', 'A ticket with ID: #'. $ticket->ticket_id .' has been opened.');
     }
